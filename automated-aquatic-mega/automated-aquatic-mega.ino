@@ -11,8 +11,8 @@
 
 #define PIN_PH_SENS -1
 #define PIN_TEMP_SENS -1
-#define PIN_WATER_LVL_SENS -1
-#define PIN_TURBIDITY_SENS -1
+#define PIN_WATER_LVL_SENS A1
+#define PIN_TURBIDITY_SENS A0
 
 #define PIN_ACTUATOR_PUMP -1
 #define PIN_ACTUATOR_FEEDER -1
@@ -144,9 +144,10 @@ void readSensor() {
   // readsensor task
   sens_data.temp = temp_sens.getTemperature();  // get aquatic temperature
   sens_data.ph = ph_sens.readPH(analogRead(PIN_PH_SENS) * ADC_VOLTAGE / ADC_BYTE, sens_data.temp);
-  sens_data.water_level = analogRead(PIN_WATER_LVL_SENS) * 100 / ADC_BYTE;
+  sens_data.water_level = (0.0184*analogRead(PIN_WATER_LVL_SENS) - 10.37)*100/3.3;
+  //Serial.println(sens_data.water_level);
   sens_data.turb = turb_sens.readTurbidity();
-  sendbuffer = String(sens_data.temp) + "/" + String(sens_data.ph), +"/" + String(sens_data.water_level) + "/" + String(sens_data.turb);
+  sendbuffer = String(sens_data.temp) + "/" + String(sens_data.ph) +"/" + String(sens_data.water_level) + "/" + String(sens_data.turb);
   Serial3.println(sendbuffer);
 }
 
@@ -215,8 +216,7 @@ void serialEvent() {
     */
     String msg = Serial.readString();
     msg.trim();
-    Serial.println(msg);
-
+    
     tuneOption(msg);
   }
 }

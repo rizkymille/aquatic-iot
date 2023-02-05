@@ -1,11 +1,13 @@
 #include "ESP8266WiFi.h"
-// #include "ESPAsyncWebServer.h"
+#include "ESPAsyncWebServer.h"
 
-#define SSID "Millennianno's Pixel 3a"
-#define PASSWORD "rmille1219"
+#include "html.h"
+
+#define SSID "Millennianno's Ideapad Slim 3"
+#define PASSWORD "mille1219"
 #define PORT 80
 
-// AsyncWebServer server(PORT);
+AsyncWebServer server(PORT);
 
 String temperature;
 String turbidity;
@@ -25,8 +27,6 @@ size_t sliceSeparator(String& msg, const char *sep = "/") {
   return msg.indexOf("/");
 }
 
-
-
 void setup() {
   Serial.begin(115200);
   // wifi init
@@ -36,6 +36,25 @@ void setup() {
     delay(1000);
   }
   SerialPrintIPAddress();
+
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send_P(200, "text/html", index_html);
+  });
+
+  server.on("/temperature", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send_P(200, "text/plain", temperature.c_str());
+  });
+  server.on("/ph", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send_P(200, "text/plain", ph.c_str());
+  });
+  server.on("/water-level", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send_P(200, "text/plain", water_level.c_str());
+  });
+  server.on("/turbidity", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send_P(200, "text/plain", turbidity.c_str());
+  });
+
+  server.begin();
 }
 
 void loop() {}

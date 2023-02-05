@@ -66,7 +66,7 @@ const char index_html[] PROGMEM = R"rawliteral(
     };
     xhttp.open("GET", "/temperature", true);
     xhttp.send();
-  }, 30000 ) ;
+  }, 1000 ) ;
 
   var chartPH = new Highcharts.Chart({
     chart:{ renderTo:'chart-pH' },
@@ -105,7 +105,7 @@ const char index_html[] PROGMEM = R"rawliteral(
     };
     xhttp.open("GET", "/ph", true);
     xhttp.send();
-  }, 30000 ) ;
+  }, 1000 ) ;
 
   var chartWL = new Highcharts.Chart({
     chart:{ renderTo:'chart-water-level' },
@@ -145,7 +145,7 @@ const char index_html[] PROGMEM = R"rawliteral(
     };
     xhttp.open("GET", "/water-level", true);
     xhttp.send();
-  }, 30000 ) ;
+  }, 1000 ) ;
 
   var chartTB = new Highcharts.Chart({
     chart:{ renderTo:'chart-turbidity' },
@@ -185,7 +185,7 @@ const char index_html[] PROGMEM = R"rawliteral(
     };
     xhttp.open("GET", "/turbidity", true);
     xhttp.send();
-  }, 30000 ) ;
+  }, 1000 ) ;
   </script>
 
   </html>
